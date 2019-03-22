@@ -1,0 +1,25 @@
+version: '3'
+services:
+    db:
+      image: "store/saplabs/hanaexpress:2.00.036.00.20190223.1"
+      restart: "unless-stopped"
+      ports:
+        - 39013:39013
+        - 39017:39017
+        - 39041-39045:39041-39045
+        - 1128-1129:1128-1129
+        - 59013-59014:59013-59014 
+      volumes:
+        - ./post_start:/hana/hooks/post_start/
+        - ./dump:/hana/mounts/dump/
+      environment: 
+        - DUMP_FOLDER=DUMP
+        - SOURCE_SCHEMA=SOURCE
+        - SCHEMA_NAME=LOCALDEV
+        - SCHEMA_PWD=Localdev1
+      command:
+        - --agree-to-sap-license
+        - --dont-check-system
+        - --dont-check-mount-points
+        - --master-password
+        - HXEHana1
